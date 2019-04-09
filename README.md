@@ -5,9 +5,11 @@ A tool to memorize passages of scripture through typing them repeatedly. Capable
 - python3
 
 ## Usage
-`python3 passage.py  [filename]`
+`python3 passage.py [--cheat [CHEAT]] [filename]` 
 
 Arguments:
+
+'--cheat (-c)` - Optional - if true, prints verse before you have to type. Useful for learning.
 
 `filename` - Optional - specifies file to read passage from. If not included, the application asks for a passage reference and uses and ESV API to get a passage.
 
