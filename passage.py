@@ -37,7 +37,10 @@ def main():
     #print(''.join(lines), '\n')
     start = int(input("Starting Verse: "))
     end = int(input("Ending Verse: "))
-    
+    if input("Show verses? (y/n): ") == "y":
+        for i in range(start-1,end):
+            print(lines[entries[i]], end=' ')
+        print()
     t = Tree(entries[start-1:end])
     if args.cheat == True:
         check_verses(t, lines, True)
@@ -80,22 +83,58 @@ def check_verses(t, lines, cheat):
         score_verse(a,b)
     else:
         verses = ' '.join(lines[t.entry[0]:t.entry[-1]+1])
-        print("Verses %s-%s: %s" % (t.entry[0]+1, t.entry[-1]+1, verses))
-        a = input("        %s> " % (' '*((len(str(t.entry[0]+1)))+len(str(t.entry[-1]+1)))))
+        if (cheat):
+            print("Verses %s-%s: %s" % (t.entry[0]+1, t.entry[-1]+1, verses))
+            a = input("        %s> " % (' '*((len(str(t.entry[0]+1)))+len(str(t.entry[-1]+1)))))
+        else:
+            a = input("Verses %s-%s: " % (str(t.entry[0]+1), str(t.entry[-1]+1)))
         b = verses
         score_verse(a,b)
 
 def score_verse(input, verse):
     count = 0
+    correction = ""
+    in_add = False
+    in_sub = False
     print()
     for i,s in enumerate(difflib.ndiff(input, verse)):
-        if s[0]==' ': continue
+        if s[0]==' ':
+            if in_add:
+                correction += ")%c" % s[-1]
+                in_add = False
+            elif in_sub:
+                correction += "]%c" % s[-1]
+                in_sub = False
+            else:
+                correction += str(s[-1])
         elif s[0]=='-':
             count += 1
-            print(u'Delete "{}" from position {}'.format(s[-1],i))
+            #print(u'Delete "{}" from position {}'.format(s[-1],i))
+            if in_add:
+                correction += ")[%c" % s[-1]
+                in_add = False
+            elif in_sub:
+                correction += "%c" % s[-1]
+            else:
+                correction += "[%c" % s[-1]
+                in_sub = True
         elif s[0]=='+':
             count += 1
-            print(u'Add "{}" to position {}'.format(s[-1],i)) 
+            #print(u'Add "{}" to position {}'.format(s[-1],i)) 
+            if in_add:
+                correction += "%c" % s[-1]
+            elif in_sub:
+                correction += "](%s" % s[-1]
+                in_sub = False
+                in_add = True
+            else:
+                correction += "(%s" % s[-1]
+                in_add = True
+    if in_add:
+        correction += ")"
+    if in_sub:
+        correction += "]"
+    print(correction)
     print(str(count) + " errors.")   
     print()
 
