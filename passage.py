@@ -7,14 +7,14 @@ import requests
 
 def main():
     parser = argparse.ArgumentParser('Memorize Scripture through typing.')
+    parser.add_argument('--cheat', '-c', type=bool, nargs='?')
     parser.add_argument('filename', type=argparse.FileType('r'), nargs='?')
-    
     args = parser.parse_args()
     if args.filename is not None:
         with args.filename as text_file:
             lines = text_file.readlines()
-            for line in lines:
-                line = line.replace('\n', '')
+            for i in range(len(lines)):
+                lines[i] = lines[i].replace('\n', '')
     else:
         with open('config.json') as config_file:
             API_KEY = json.load(config_file)["API_KEY"]
@@ -39,7 +39,10 @@ def main():
     end = int(input("Ending Verse: "))
     
     t = Tree(entries[start-1:end])
-    check_verses(t, lines)
+    if args.cheat == True:
+        check_verses(t, lines, True)
+    else:
+        check_verses(t, lines, False)
     
 class Tree(object):
     def __init__(self, entries):
@@ -61,15 +64,18 @@ class Tree(object):
                 ret += child.__repr__(level+1)
         return ret
 
-def check_verses(t, lines):
+def check_verses(t, lines, cheat):
     if t.left is not None:
-        check_verses(t.left, lines)
+        check_verses(t.left, lines, cheat)
     if t.right is not None:
-        check_verses(t.right, lines)
+        check_verses(t.right, lines, cheat)
     if len(t.entry) == 1:
         i = t.entry[0]
-        print("Verse %s: %s" % (i+1, lines[i]))
-        a = input("      %s> " % (' '*len(str(i+1))))
+        if (cheat):
+            print("Verse %s: %s" % (i+1, lines[i]))
+            a = input("      %s> " % (' '*len(str(i+1))))
+        else:
+            a = input("Verse %s: " % str(i+1))
         b = ''.join(lines[i])
         score_verse(a,b)
     else:
