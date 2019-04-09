@@ -4,6 +4,14 @@ A tool to memorize passages of scripture through typing them repeatedly. Capable
 ## Dependencies
 - python3
 
+## API_KEY
+To access the ESV API, you need an API KEY available [here](https://api.esv.org/docs/). Once you have an API KEY, create a `config.json` file with contents like so:
+```json
+{
+    "API_KEY": "YoUr_ApI_kEy_HeRe"
+}
+```
+
 ## Usage
 `python3 passage.py [--cheat [CHEAT]] [filename]` 
 
@@ -31,10 +39,3 @@ Starting Verse: 1
 Ending Verse: 21
 ```
 
-## API_KEY
-To access the ESV API, you need an API KEY available [here](https://api.esv.org/docs/). Once you have an API KEY, create a `config.json` file with contents like so:
-```json
-{
-    "API_KEY": "YoUr_ApI_kEy_HeRe"
-}
-```
