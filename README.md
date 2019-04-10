@@ -15,9 +15,13 @@ To access the ESV API, you need an API KEY available [here](https://api.esv.org/
 ## Usage
 `python3 passage.py [--cheat [CHEAT]] [filename]` 
 
+or
+
+`./passage.py [--cheat [CHEAT]] [filename]`
+
 Arguments:
 
-'--cheat (-c)` - Optional - if true, prints verse before you have to type. Useful for learning.
+`--cheat (-c)` - Optional - if true, prints verse before you have to type. Useful for learning.
 
 `filename` - Optional - specifies file to read passage from. If not included, the application asks for a passage reference and uses and ESV API to get a passage.
 

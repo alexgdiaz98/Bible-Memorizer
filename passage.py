@@ -6,6 +6,40 @@ import math
 import re
 import requests
 
+"""
+Enumeration of text styling options in ther terminal
+
+"""
+class bcolors:
+    HEAD = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
+class Tree(object):
+    def __init__(self, entries):
+        li = []
+        if len(entries) == 1:
+            self.entry = entries
+            self.left = None
+            self.right = None
+        else:
+            for i in entries:
+                li.append(i)
+            self.entry = li
+            self.left = Tree(entries[:math.ceil(len(entries)/2)])
+            self.right = Tree(entries[math.ceil(len(entries)/2):])
+    def __repr__(self, level=0):
+        ret = "\t"*level+repr(self.entry)+"\n"
+        for child in (self.left, self.right):
+            if child is not None:
+                ret += child.__repr__(level+1)
+        return ret
+
 def main():
     parser = argparse.ArgumentParser('Memorize Scripture through typing.')
     parser.add_argument('--cheat', '-c', type=bool, nargs='?')
@@ -37,41 +71,22 @@ def main():
     #print(t)
     #print(''.join(lines), '\n')
     print("\n"*50)
-    start = int(input("Starting Verse: "))
-    end = input("Ending Verse: ")
+    start = int(input("Starting Verse: " + bcolors.OKGREEN))
+    end = input(bcolors.ENDC + "Ending Verse: " + bcolors.OKGREEN)
     if end == "end":
         end = len(lines)
     else:
         end = int(end)
-    if input("Show verses? (y/n): ") == "y":
+    if input(bcolors.ENDC + "Show verses? (y/n): " + bcolors.OKGREEN) == "y":
+        print()
         for i in range(start-1,end):
-            print(lines[entries[i]], end=' ')
+            print(bcolors.HEAD + "[%d] " % (i+1) + bcolors.ENDC + lines[entries[i]], end=' ')
         print("\n")
     t = Tree(entries[start-1:end])
     if args.cheat == True:
         check_verses(t, lines, True)
     else:
         check_verses(t, lines, False)
-    
-class Tree(object):
-    def __init__(self, entries):
-        li = []
-        if len(entries) == 1:
-            self.entry = entries
-            self.left = None
-            self.right = None
-        else:
-            for i in entries:
-                li.append(i)
-            self.entry = li
-            self.left = Tree(entries[:math.ceil(len(entries)/2)])
-            self.right = Tree(entries[math.ceil(len(entries)/2):])
-    def __repr__(self, level=0):
-        ret = "\t"*level+repr(self.entry)+"\n"
-        for child in (self.left, self.right):
-            if child is not None:
-                ret += child.__repr__(level+1)
-        return ret
 
 def check_verses(t, lines, cheat):
     if t.left is not None:
@@ -106,10 +121,10 @@ def score_verse(input, verse):
     for i,s in enumerate(difflib.ndiff(input, verse)):
         if s[0]==' ':
             if in_add:
-                correction += ")%c" % s[-1]
+                correction += "%s)%s%c" % (bcolors.HEAD, bcolors.ENDC, s[-1])
                 in_add = False
             elif in_sub:
-                correction += "]%c" % s[-1]
+                correction += "%s]%s%c" % (bcolors.FAIL, bcolors.ENDC, s[-1])
                 in_sub = False
             else:
                 correction += str(s[-1])
@@ -117,12 +132,13 @@ def score_verse(input, verse):
             count += 1
             #print(u'Delete "{}" from position {}'.format(s[-1],i))
             if in_add:
-                correction += ")[%c" % s[-1]
+                correction += "%s)%s[%s%c" % (bcolors.HEAD, bcolors.FAIL, bcolors.ENDC, s[-1])
                 in_add = False
+                in_sub = True
             elif in_sub:
                 correction += "%c" % s[-1]
             else:
-                correction += "[%c" % s[-1]
+                correction += "%s[%s%c" % (bcolors.FAIL, bcolors.ENDC, s[-1])
                 in_sub = True
         elif s[0]=='+':
             count += 1
@@ -130,16 +146,16 @@ def score_verse(input, verse):
             if in_add:
                 correction += "%c" % s[-1]
             elif in_sub:
-                correction += "](%s" % s[-1]
+                correction += "%s]%s(%s%c" % (bcolors.FAIL, bcolors.HEAD, bcolors.ENDC, s[-1])
                 in_sub = False
                 in_add = True
             else:
-                correction += "(%s" % s[-1]
+                correction += "%s(%s%c" % (bcolors.HEAD, bcolors.ENDC, s[-1])
                 in_add = True
     if in_add:
-        correction += ")"
+        correction += bcolors.HEAD + ")" + bcolors.ENDC
     if in_sub:
-        correction += "]"
+        correction += bcolors.FAIL + "]" + bcolors.ENDC
     print(correction)
     print(str(count) + " errors.")   
     print()
