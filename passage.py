@@ -29,14 +29,19 @@ def main():
         text = re.sub(r' +',' ',text)
         lines = text.split('\n')
         lines = lines[1:]
-        print(lines)
+        #print(lines)
     #print(lines, len(lines))
     entries = list(range(len(lines)))
     t = Tree(entries)
     #print(t)
     #print(''.join(lines), '\n')
+    print("\n"*50)
     start = int(input("Starting Verse: "))
-    end = int(input("Ending Verse: "))
+    end = input("Ending Verse: ")
+    if end == "end":
+        end = len(lines)
+    else:
+        end = int(end)
     if input("Show verses? (y/n): ") == "y":
         for i in range(start-1,end):
             print(lines[entries[i]], end=' ')
