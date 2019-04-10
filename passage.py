@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import argparse
 import difflib
 import json
@@ -45,7 +46,7 @@ def main():
     if input("Show verses? (y/n): ") == "y":
         for i in range(start-1,end):
             print(lines[entries[i]], end=' ')
-        print()
+        print("\n")
     t = Tree(entries[start-1:end])
     if args.cheat == True:
         check_verses(t, lines, True)
