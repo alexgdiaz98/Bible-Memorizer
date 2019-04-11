@@ -82,6 +82,7 @@ def main():
         for i in range(start-1,end):
             print(bcolors.HEAD + "[%d] " % (i+1) + bcolors.ENDC + lines[entries[i]], end=' ')
         print("\n")
+    print(bcolors.ENDC, end='')
     t = Tree(entries[start-1:end])
     if args.cheat == True:
         check_verses(t, lines, True)
@@ -96,19 +97,19 @@ def check_verses(t, lines, cheat):
     if len(t.entry) == 1:
         i = t.entry[0]
         if (cheat):
-            print("Verse %s: %s" % (i+1, lines[i]))
-            a = input("      %s> " % (' '*len(str(i+1))))
+            print("%sVerse%s %d: %s" % (bcolors.HEAD, bcolors.ENDC, i+1, lines[i]))
+            a = input("      %s%s>%s " % (' '*len(str(i+1)), bcolors.HEAD, bcolors.ENDC))
         else:
-            a = input("Verse %s: " % str(i+1))
+            a = input("%sVerse %s:%s " % (bcolors.HEAD, str(i+1), bcolors.ENDC))
         b = ''.join(lines[i])
         score_verse(a,b)
     else:
         verses = ' '.join(lines[t.entry[0]:t.entry[-1]+1])
         if (cheat):
-            print("Verses %s-%s: %s" % (t.entry[0]+1, t.entry[-1]+1, verses))
+            print("%sVerses %s-%s:%s %s" % (bcolors.HEAD, t.entry[0]+1, t.entry[-1]+1, bcolors.ENDC, verses))
             a = input("        %s> " % (' '*((len(str(t.entry[0]+1)))+len(str(t.entry[-1]+1)))))
         else:
-            a = input("Verses %s-%s: " % (str(t.entry[0]+1), str(t.entry[-1]+1)))
+            a = input("%sVerses %s-%s:%s " % (bcolors.HEAD, str(t.entry[0]+1), str(t.entry[-1]+1), bcolors.ENDC))
         b = verses
         score_verse(a,b)
 
