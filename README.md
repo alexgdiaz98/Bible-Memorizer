@@ -35,7 +35,7 @@ Arguments:
 
 Ex.
 ```
-python3 passage.py
+python3 tree.py
 
 Enter desired passsage (e.g. John 1:1, jn11.35, Genesis 1-3)
 Passage: Romans 12
@@ -45,7 +45,7 @@ Ending Verse: 21
 
 Ex.
 ```
-python3 passage.py src/Romans+12+NASB.txt
+python3 list.py src/Romans+12+NASB.txt
 
 Starting Verse: 1
 Ending Verse: 21
