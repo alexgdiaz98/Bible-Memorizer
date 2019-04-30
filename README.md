@@ -13,11 +13,19 @@ To access the ESV API, you need an API KEY available [here](https://api.esv.org/
 ```
 
 ## Usage
-`python3 passage.py [--cheat [CHEAT]] [filename]` 
+`python3 tree.py [--cheat [CHEAT]] [filename]` 
 
 or
 
-`./passage.py [--cheat [CHEAT]] [filename]`
+`./tree.py [--cheat [CHEAT]] [filename]`
+
+or
+
+`python3 list.py [--cheat [CHEAT]] [filename]` 
+
+or
+
+`./list.py [--cheat [CHEAT]] [filename]`
 
 Arguments:
 
