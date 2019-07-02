@@ -29,6 +29,10 @@ def get_ESV():
     r = requests.get(url=url, headers={'Authorization': '%s' % API_KEY})
     
     data = json.loads(r.text)
+    if data['passages'] == []:
+        print('Passage not found.')
+        return -1
+    
     text = data['passages'][0]
     text = text.replace('\n','')
     lines = re.sub(r' *\[\d+\] *', '\n', text) # e.g. ' [5] ' -> '\n'
@@ -52,6 +56,8 @@ def main():
                 line = line.replace('\n', '')
     else:
         lines = get_ESV()
+        if lines == -1:
+            return -1
     
     print('%d verses' % len(lines))
     start = int(input('Starting Verse: ' + bcolors.OKGREEN))
