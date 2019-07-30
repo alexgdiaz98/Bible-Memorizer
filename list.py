@@ -33,15 +33,17 @@ def get_ESV():
         print('Passage not found.')
         return -1
     
+    # Format JSON text into a list of strings, with one verse per string
     text = data['passages'][0]
     text = text.replace('\n','')
-    lines = re.sub(r' *\[\d+\] *', '\n', text) # e.g. ' [5] ' -> '\n'
-    lines = re.sub(r' +',' ',lines) # e.g. '     ' -> ' '
+    lines = re.sub(r' *\[\d+\] *', '\n', text)  # e.g. ' [5] ' -> '\n'
+    lines = re.sub(r' +',' ',lines)             # e.g. '     ' -> ' '
     lines = lines.split('\n')
     lines = lines[1:]
     return lines
 
 def main():
+    # Argument
     parser = argparse.ArgumentParser('Memorize Scripture through typing.')
     parser.add_argument('--cheat', '-c', type=bool, nargs='?')
     parser.add_argument('filename', type=argparse.FileType('r'), nargs='?')
@@ -49,12 +51,12 @@ def main():
     os.system('cls' if os.name == 'nt' else 'clear') # Clears terminal
     
     if args.filename is not None:
-        # Read argument as file
+        # Read a text file (from the argument)
         with args.filename as text_file:
             lines = text_file.readlines()
-            for line in iter(lines):
-                line = line.replace('\n', '')
+            lines = [line.replace('\n', '').replace('’','\'') for line in lines]
     else:
+        # Read a JSON Object (from ESV API)
         lines = get_ESV()
         if lines == -1:
             return -1
