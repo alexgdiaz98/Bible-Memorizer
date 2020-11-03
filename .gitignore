@@ -1,1 +1,4 @@
+.idea/
+src/
 config.json
+test.py

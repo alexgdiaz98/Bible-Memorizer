@@ -8,7 +8,7 @@ A tool to memorize passages of scripture through typing them repeatedly. Capable
 To access the ESV API, you need an API KEY available [here](https://api.esv.org/docs/). Once you have an API KEY, create a `config.json` file with contents like so:
 ```json
 {
-    "API_KEY": "YoUr_ApI_kEy_HeRe"
+    "ESV": "YoUr_ApI_kEy_HeRe"
 }
 ```
 
