@@ -13,41 +13,29 @@ To access the ESV API, you need an API KEY available [here](https://api.esv.org/
 ```
 
 ## Usage
-`python3 tree.py [--cheat [CHEAT]] [filename]` 
+`python3 download.py` 
 
 or
 
-`./tree.py [--cheat [CHEAT]] [filename]`
-
-or
-
-`python3 list.py [--cheat [CHEAT]] [filename]` 
-
-or
-
-`./list.py [--cheat [CHEAT]] [filename]`
+`./run.py [filename]`
 
 Arguments:
 
-`--cheat (-c)` - Optional - if true, prints verse before you have to type. Useful for learning.
-
-`filename` - Optional - specifies file to read passage from. If not included, the application asks for a passage reference and uses and ESV API to get a passage.
+`filename` - specifies file to read passage from. File must be formatted by download.py
 
 Ex.
 ```
-python3 tree.py
+python3 download.py
 
 Enter desired passsage (e.g. John 1:1, jn11.35, Genesis 1-3)
-Passage: Romans 12
-Starting Verse: 1
-Ending Verse: 21
+Passage: 2 John-Jude 3
 ```
 
 Ex.
 ```
-python3 list.py src/Romans+12+NASB.txt
+python3 run.py src/Romans+12+NASB.txt
 
-Starting Verse: 1
+Starting Verse ('s' to skip chapter): 1
 Ending Verse: 21
 ```
 

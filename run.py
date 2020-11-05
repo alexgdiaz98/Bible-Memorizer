@@ -38,7 +38,6 @@ def get_file(filename):
                 passages[passageID][-1][1].append(line)
             else:
                 sys.exit('Invalid line in source: %s' % line)
-    print(passages)
 
 def main():
     # Argument
@@ -55,7 +54,6 @@ def main():
     print('%d passage(s)' % len(passages.keys()))
     for passageID in passages.keys():
         for chapterI, chapter in enumerate(passages[passageID]):
-            print(chapter[0])
             raw = input('Starting Verse (\'s\' to skip chapter): ' + bcolors.OKGREEN)
         firstVerse, lastVerse = int(chapter[1][0].split('.')[0]), int(chapter[1][-1].split('.')[0])
         if raw == 's':
